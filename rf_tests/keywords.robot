@@ -6,3 +6,4 @@ ${wait_time}      3    # Number of seconds to wait before reading the time elaps
 ${source_playlist_name}    extra_heavy_metal    # Source playlist for the drag and drop test functionality
 ${target_playlist_name}    Super_jazz    # Target playlist for the drag and drop test functionality
 ${song_name}      Strangler    # Song name for the drag and drop test functionality
+${search_term}    Sweet Home Alabama    # Search word(s) that are entered into the search field

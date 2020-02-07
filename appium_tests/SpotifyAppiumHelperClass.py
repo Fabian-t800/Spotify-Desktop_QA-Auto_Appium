@@ -4,6 +4,7 @@ from selenium.webdriver import ActionChains
 from dateutil.parser import parse
 import time
 from robot.api import logger as robologger
+from selenium.webdriver.common.touch_actions import TouchActions
 
 
 class SpotifyAppiumHelperClass:
@@ -180,7 +181,68 @@ class SpotifyAppiumHelperClass:
         self.SABL.remove_song_from_playlist_button().click()
 
     def ui_test_bottom_console(self):
-        pass
+        try:
+            self.SABL.player_ui_frame()
+            self.SABL.now_playing_cluster()
+            self.SABL.shuffle_button()
+            self.SABL.prev_button()
+            self.SABL.play_button_ui()
+            self.SABL.next_button()
+            self.SABL.repeat_button()
+            self.SABL.control_bar()
+            self.SABL.time_elapsed_element()
+            self.SABL.time_remaining()
+            self.SABL.queue_button()
+            self.SABL.connected_device()
+            self.SABL.mute_button()
+            self.SABL.volume_bar()
+        except Exception as err:
+            robologger.warn(f"An element was not detected and this is the error: {err}")
+            raise AssertionError("Not all bottom ui elements were present.")
+            pass
+
+    def move_mouse_to_volume_bar(self):
+        actions = ActionChains(self.SABL.ret_driver())
+        actions.move_to_element_with_offset(self.SABL.mute_button(), 60, 20)
+        # actions.move_to_element(self.SABL.ret_driver().find_element_by_accessibility_id("player-volumebar"))
+        actions.pause(5)
+        actions.perform()
+
+    def scrolling_actions(self):
+        tactions = TouchActions(self.SABL.ret_driver())
+        tactions.scroll(10, 10)
+        tactions.perform()
+
+    # def ui_test_bottom_console(self):
+    #     elements = []
+    #     try:
+    #         # elements.append(self.SABL.player_ui_frame())
+    #         # elements.append(self.SABL.now_playing_cluster())
+    #         # elements.append(self.SABL.shuffle_button())
+    #         # elements.append(self.SABL.prev_button())
+    #         # elements.append(self.SABL.play_button_ui())
+    #         # elements.append(self.SABL.next_button())
+    #         # elements.append(self.SABL.repeat_button())
+    #         # elements.append(self.SABL.control_bar())
+    #         # elements.append(self.SABL.time_elapsed_element())
+    #         # elements.append(self.SABL.time_remaining())
+    #         # elements.append(self.SABL.queue_button())
+    #         # elements.append(self.SABL.connected_device())
+    #         # elements.append(self.SABL.mute_button())
+    #         # elements.append(self.SABL.volume_bar())
+    #         # 14 elements
+    #         for element in elements:
+    #             robologger.warn(f"\n Webelement text: {element.text}\n"
+    #                   f"Webelement: {element}\n")
+    #         # for element in elements:
+    #         #     actions = ActionChains(self.SABL.ret_driver())
+    #         #     actions.move_to_element(element)
+    #         #     actions.pause(2)
+    #         #     actions.perform()
+    #     except Exception as err:
+    #         robologger.warn(f"An element was not detected and this is the error: {err}")
+    #         raise AssertionError("Not all bottom ui elements were present.")
+    #         pass
 
 # if __name__ == '__main__':
 #     SpotifyAppiumHelperClass().suite_setup()

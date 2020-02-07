@@ -37,3 +37,18 @@ Drag and drop functionality
     Drag and drop song from source playlist to target playlist    ${song_name}    ${target_playlist_name}
     Click on target playlist
     Assert if the song has been successfully dragged and dropped
+
+Bottom Console UI Test
+    Click home button
+    Verify bottom ui console
+
+Search functionality test
+    Click home button
+    Click search field
+    Type in search keyword    ${search_term}
+    Verify search results
+
+Volume Scroll Functionality
+    Click home button
+    Move mouse over the volume bar
+    Scroll mouse

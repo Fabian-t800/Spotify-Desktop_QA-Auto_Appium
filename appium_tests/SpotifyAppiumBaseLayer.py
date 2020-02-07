@@ -3,7 +3,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 import time
-from selenium.webdriver import ActionChains
+from robot.api import logger as robologger
 
 def singleton(cls):
     instances = {}
@@ -38,7 +38,6 @@ class SpotifyAppiumBaseLayer:
         return self.driver
 
     def _driver_wait(self, locator_of_element, locator_strategy=None):
-        #TODO: Rewrite to a custom wait method (homebrew)
         """
         :param locator_strategy: Otherwise it will call for accessibility_id.
         :param locator_of_element: Locator of the element that needs to be found. Needs to be XPATH.
@@ -82,7 +81,7 @@ class SpotifyAppiumBaseLayer:
         self._driver_wait(self.driver.find_element_by_accessibility_id("iframe-budy-list"), "accessibility_id")
 
     def playlist(self, playlist_name):
-        time.sleep(2)
+        WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.XPATH, f"//*[@LocalizedControlType='text' and @Name='{playlist_name}']")))
         return self.driver.find_element_by_xpath(f"//*[@LocalizedControlType='text' and @Name='{playlist_name}']")
 
     def songs_in_playlist(self):
@@ -110,7 +109,6 @@ class SpotifyAppiumBaseLayer:
         :param song_name: WebElement of the song that needs to be interacted with.
         :return:
         """
-        time.sleep(2)
         return self.driver.find_elements_by_xpath("//*[@LocalizedControlType='table']")[2].find_elements_by_xpath(f"//*[@LocalizedControlType='text' and @Name='{song_name}']")[0]
 
     def remove_song_from_playlist_button(self):
@@ -124,6 +122,45 @@ class SpotifyAppiumBaseLayer:
         :return: WebElement. Play button.
         """
         return self.driver.find_elements_by_xpath("//*[@Name='Player controls' and @LocalizedControlType='complementary']")[0]
+
+    def player_ui_frame(self):
+        return self.driver.find_element_by_accessibility_id("view-player-footer")
+
+    def now_playing_cluster(self):
+        return self.player_ui_frame().find_element_by_xpath("//*[@LocalizedControlType='content info']")
+
+    def shuffle_button(self):
+        return self.driver.find_element_by_accessibility_id("player-button-shuffle")
+
+    def prev_button(self):
+        return self.driver.find_element_by_accessibility_id("player-button-previous")
+
+    def play_button_ui(self):
+        return self.driver.find_element_by_accessibility_id("player-button-play")
+
+    def next_button(self):
+        return self.driver.find_element_by_accessibility_id("player-button-next")
+
+    def repeat_button(self):
+        return self.driver.find_element_by_accessibility_id("player-button-repeat")
+
+    def control_bar(self):
+        return self.driver.find_element_by_xpath("//*[@Name='Player controls']").find_elements_by_xpath('//*')[3]
+
+    def time_remaining(self):
+        return self.driver.find_element_by_xpath("//*[@Name='Player controls']").find_elements_by_xpath('//*')[4]
+
+    def queue_button(self):
+        return self.driver.find_element_by_accessibility_id("player-button-queue")
+
+    def connected_device(self):
+        return self.driver.find_element_by_accessibility_id("player-button-devices")
+
+    def mute_button(self):
+        return self.driver.find_element_by_xpath("//*[@Name='Mute' and @LocalizedControlType='button']")
+
+    def volume_bar(self):
+        return self.player_ui_frame().find_elements_by_xpath("//*")[9]
 
     def time_elapsed_element(self):
         """
@@ -328,6 +365,32 @@ class SpotifyAppiumBaseLayer:
     def play_button(self):
         return self.driver.find_elements_by_xpath("//*[@Name='Player controls' and @LocalizedControlType='complementary']")[0]
 
+    def find_element(self, element):
+        # self.driver.find_element_by_accessibility_id("player-button-shuffle")
+        self._wait_for_element("accessibility_id", locator_value="player-button-shuffle")
+
+    def _wait_for_element(self, locator_strategy=None, locator_key=None, locator_value=None, locator_kv=None):
+        number_of_attempts = 0
+        while number_of_attempts < 3:
+            try:
+                if locator_strategy.lower() == "xpath":
+                    element = self.driver.find_element_by_xpath(f"//*[@{locator_key}='{locator_value}']")
+                    return element
+                elif locator_strategy.lower() == "accessibility_id":
+                    element = self.driver.find_element_by_accessibility_id(f"{locator_value}")
+                    return element
+                elif locator_strategy.lower() == "name":
+                    element = self.driver.find_element_by_name(f"{locator_value}")
+                    return element
+            except Exception:
+                robologger.debug(f"Tried to locate element. Attempt number {number_of_attempts}")
+                time.sleep(0.5)
+                number_of_attempts += 1
+                continue
+            finally:
+                if number_of_attempts == 3:
+                    robologger.warn("3 attempts were made but element couldn't be located.")
+
 if __name__ == '__main__':
     # playlist = SpotifyAppiumBaseLayer().playlist('extra_heavy_metal')
     # playlist.click()
@@ -335,6 +398,7 @@ if __name__ == '__main__':
     # actions = ActionChains(SpotifyAppiumBaseLayer().ret_driver())
     # actions.move_to_element(song)
     # actions.perform()
-    SpotifyAppiumBaseLayer().ret_driver()
+    p = SpotifyAppiumBaseLayer()
+    p.find_element(SpotifyAppiumBaseLayer().driver.find_element_by_xpath("//*[@Name='Mute' and @LocalizedControlType='button']"))
 
 

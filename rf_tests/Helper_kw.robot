@@ -85,3 +85,22 @@ Drag and drop tc teardown
 
 Maximize window
     max_win
+
+Verify bottom ui console
+    ui_test_bottom_console
+
+Click search field
+    click_on_search
+
+Type in search keyword
+    [Arguments]    ${search_term}
+    enter_search_keyword    ${search_term}
+
+Verify search results
+    check_search_functionality    ${search_term}
+
+Move mouse over the volume bar
+    move_mouse_to_volume_bar
+
+Scroll mouse
+    scrolling_actions

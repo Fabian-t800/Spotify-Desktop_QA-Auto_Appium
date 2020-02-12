@@ -6,4 +6,6 @@
 /appium_tests/__pycache__/__init__.cpython-37.pyc
 /reports_stable/*.xml
 /reports_stable/*.html
+/reports/*.xml
+/reports/*.html
 /.idea/vcs.xml

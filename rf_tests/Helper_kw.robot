@@ -104,3 +104,10 @@ Move mouse over the volume bar
 
 Scroll mouse
     scrolling_actions
+
+Click on the desired playlist
+    [Arguments]         ${searched_playlist}
+    click_on_playlist    ${searched_playlist}
+
+Read the song from the playlist
+    read_songs_from_target_playlist

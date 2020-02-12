@@ -1,16 +1,15 @@
 # Set loglevel to Debug if tests start to fail
-#--suite "Spotify_Desktop_Tests_-_BDD.robot"
---test Mouse Volume Scroll Test
---test Search Feature Test
---tagstatinclude Smoke
---test Create new playlist
+
+#--suite BDD Appium Robotests
+#--test Create new playlist
 --test Toggle functionality test
 --test Play song functionality
 --test Drag and drop functionality
+--test Delete song from playlist test
 --test Bottom Console UI Test
 --test Search functionality test
-#--test Volume Scroll Functionality
+--test Songs are present in a given playlist
 --timestampoutputs
 #--loglevel Debug
 --log spotifyappiumtestlogs.html
---outputdir D:\QA_Automation_Desktop_Spotify_Appium\reports_stable
+--outputdir D:\QA_Automation_Desktop_Spotify_Appium\reports_stable_benchmark_2_1

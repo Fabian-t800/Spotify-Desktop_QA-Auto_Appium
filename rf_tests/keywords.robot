@@ -7,3 +7,4 @@ ${source_playlist_name}    extra_heavy_metal    # Source playlist for the drag a
 ${target_playlist_name}    Super_jazz    # Target playlist for the drag and drop test functionality
 ${song_name}      Strangler    # Song name for the drag and drop test functionality
 ${search_term}    Sweet Home Alabama    # Search word(s) that are entered into the search field
+${searched_playlist}    Super_jazz      # The playlist that needs to be searched for songs

@@ -38,6 +38,9 @@ Drag and drop functionality
     Click on target playlist
     Assert if the song has been successfully dragged and dropped
 
+Delete song from playlist test
+    Drag and drop tc teardown
+
 Bottom Console UI Test
     Click home button
     Verify bottom ui console
@@ -47,6 +50,12 @@ Search functionality test
     Click search field
     Type in search keyword    ${search_term}
     Verify search results
+
+Songs are present in a given playlist
+    Click home button
+    Click on the desired playlist     ${searched_playlist}
+    Read the song from the playlist
+
 
 Volume Scroll Functionality
     Click home button
